@@ -82,17 +82,4 @@
         }
     </script>
 
-
-    <style>
-        .preview-photo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 5px 5px lightgrey;
-        }
-
-        .preview-active {
-            box-shadow: 0 0 3px 3px #3cbce8;
-        }
-
-    </style>
-
 @endsection

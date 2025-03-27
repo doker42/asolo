@@ -9,6 +9,10 @@ php artisan migrate
 
 php artisan db:seed
 
+npm install
+
+npm run build
+
 php artisan queue:work
 
 

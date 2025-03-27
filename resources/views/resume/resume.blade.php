@@ -73,8 +73,16 @@
                             <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                                 <div class="flex-grow-1">
                                     <h3 class="mb-0">{{$work->position}}</h3>
-                                    <div class="subheading mb-3">{{$work->company_name}}</div>
-                                    <p>{{$work->resp}}</p>
+                                    <div class="subheading mb-3">
+                                        @if($work->company_link)
+                                        <a class="company-link" href="{{$work->company_link}}" target="_blank">
+                                            {{$work->company_name}}
+                                        </a>
+                                        @else
+                                            {{$work->company_name}}
+                                        @endif
+                                    </div>
+                                    <p class="lead">{{$work->resp}}</p>
                                     <p><strong>used stack</strong>: {{$work->stack}}</p>
                                 </div>
                                 <div class="flex-shrink-0"><span class="text-primary">{{$work->start_date}} - {{$work->finish_date}}</span></div>
@@ -140,7 +148,7 @@
                     <h2 class="mb-5">{{__('CV download')}}</h2>
 
                     <div class="image-container" id="downloadImage">
-                        <img src="{{asset('assets/img/resume_pdf.png')}}" alt="Downloadable Image" class="download-image">
+                        <img src="{{asset('assets/img/default/resume_pdf.png')}}" alt="Downloadable Image" class="download-image">
                         <div id="loadingIndicator" class="loading-indicator">
                             <div class="spinner-border text-light"></div>
                         </div>
