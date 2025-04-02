@@ -23,7 +23,7 @@
 
             <div class="card-body">
 
-                <form role="form" action="{{ route('admin_about_update', $about->id) }}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{ route('admin_about_update') }}" method="post" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row">

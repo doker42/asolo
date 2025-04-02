@@ -27,7 +27,11 @@
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
                 <span class="d-block d-lg-none">VITALII CHEBOTNIKOV</span>
                 <span class="d-none d-lg-block">
-                    <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ Storage::url($about->image->name) }}" alt="..." />
+                    @if(isset($about->image?->name))
+                        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ Storage::url($about->image->name) }}" alt="..." />
+                    @else
+                        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ asset('assets/img/default/developer.jpeg') }}" alt="..." />
+                    @endif
                 </span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -140,7 +144,7 @@
                     <h2 class="mb-5">{{__('CV download')}}</h2>
 
                     <div class="image-container" id="downloadImage">
-                        <img src="{{asset('assets/img/resume_pdf.png')}}" alt="Downloadable Image" class="download-image">
+                        <img src="{{asset('assets/img/default/resume_pdf.png')}}" alt="Downloadable Image" class="download-image">
                         <div id="loadingIndicator" class="loading-indicator">
                             <div class="spinner-border text-light"></div>
                         </div>

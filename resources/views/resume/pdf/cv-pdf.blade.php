@@ -97,40 +97,40 @@
         <!-- About Me -->
         <div class="resume-section">
             <h3>About Me</h3>
-{{--            <p>{{$about->about}}</p>--}}
+            <p>{{$about->about}}</p>
         </div>
 
         <!-- Experience -->
-{{--        <div class="resume-section">--}}
-{{--            <h3>Experience</h3>--}}
-{{--            @if($works && count($works))--}}
-{{--                @foreach($works as $work)--}}
-{{--                    <p><strong><span class="position">{{$work->position}}</span> <span class="company">  -  {{$work->company_name}}  -  {{$work->company_link}}</span></strong></p>--}}
-{{--                    <p><strong><span class="date">{{mb_strtolower($work->start_date)}} - {{mb_strtolower($work->finish_date)}}</span></strong></p>--}}
+        <div class="resume-section">
+            <h3>Experience</h3>
+            @if($works && count($works))
+                @foreach($works as $work)
+                    <p><strong><span class="position">{{$work->position}}</span> <span class="company">  -  {{$work->company_name}}  -  {{$work->company_link}}</span></strong></p>
+                    <p><strong><span class="date">{{mb_strtolower($work->start_date)}} - {{mb_strtolower($work->finish_date)}}</span></strong></p>
 
-{{--                    @php($resps = $work->respToUl())--}}
-{{--                    @if(count($resps))--}}
-{{--                        <ul>--}}
-{{--                        @foreach($resps as $resp)--}}
-{{--                           <li>{{$resp}}</li>--}}
-{{--                        @endforeach--}}
-{{--                        </ul>--}}
-{{--                    @else--}}
-{{--                        <ul>--}}
-{{--                            <li>Lorem ipsum...</li>--}}
-{{--                            <li>Developed scalable web applications using Laravel and MySQL.</li>--}}
-{{--                            <li>Designed RESTful APIs for mobile and web applications.</li>--}}
-{{--                            <li>Implemented CI/CD pipelines and optimized app performance.</li>--}}
-{{--                        </ul>--}}
-{{--                    @endif--}}
+                    @php($resps = $work->respToUl())
+                    @if(count($resps))
+                        <ul>
+                        @foreach($resps as $resp)
+                           <li>{{$resp}}</li>
+                        @endforeach
+                        </ul>
+                    @else
+                        <ul>
+                            <li>Lorem ipsum...</li>
+                            <li>Developed scalable web applications using Laravel and MySQL.</li>
+                            <li>Designed RESTful APIs for mobile and web applications.</li>
+                            <li>Implemented CI/CD pipelines and optimized app performance.</li>
+                        </ul>
+                    @endif
 
-{{--                    <p class="date"><strong>used stack: </strong> {{$work->stack}}</p>--}}
+                    <p class="date"><strong>used stack: </strong> {{$work->stack}}</p>
 
-{{--                    <hr>--}}
-{{--                @endforeach--}}
-{{--            @endif--}}
+                    <hr>
+                @endforeach
+            @endif
 
-{{--        </div>--}}
+        </div>
 
         <!-- Courses -->
         <div class="resume-section">

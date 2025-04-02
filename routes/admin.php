@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
 
 
-Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth'] ], function () {
+//Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth'] ], function () {
+Route::group(['prefix' => config('admin.admin_prefix') ], function () {
 
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin');
 
