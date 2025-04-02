@@ -136,7 +136,6 @@
         <div class="resume-section">
             <h3>Education & Courses</h3>
             <ul>
-
                 <li>Kharkiv Aviation Engineering School, Communications Engineer,
                     Specialist. Organization of digital communication equipment
                     operation (5 years) </li>

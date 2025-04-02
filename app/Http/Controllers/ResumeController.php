@@ -45,6 +45,8 @@ class ResumeController extends Controller
             return view('resume.nodata');
         }
 
+//        dd($about);
+
         $data = [
             'about' => $about,
             'works' => $works,
