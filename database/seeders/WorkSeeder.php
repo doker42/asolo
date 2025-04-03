@@ -20,7 +20,7 @@ class WorkSeeder extends Seeder
             return;
         }
 
-        DB::table('Works')->insert([
+        DB::table('works')->insert([
              [
                 "id" => 1,
                 "position"     => "full-stack web developer",
