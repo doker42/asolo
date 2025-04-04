@@ -22,9 +22,10 @@ class WorkSeeder extends Seeder
 
         DB::table('works')->insert([
              [
-                "id" => 1,
+                "id"           => 1,
                 "position"     => "full-stack web developer",
-                "company_name" => "managerigs","company_link"=>"http://managerigs.com/",
+                "company_name" => "managerigs",
+                "company_link" => "http://managerigs.com/",
                 "resp"         => "Creation and customization of the site on php. Processing statistics the work of mining farms and visualising on the front-end. Creating programs for testing video adapters using Python.",
                 "stack"        => "HTML, PHP, JS, Python",
                 "start_date"   => "2018-05-01",
