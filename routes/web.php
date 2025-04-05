@@ -3,17 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ResumeController;
+use App\Http\Middleware\VisitorMiddleware;
 
 
 Route::get('/home', function (){
     return redirect('admin');
 })->name('home');
 
-
-Route::get('/', [ResumeController::class, 'resume'])->name('resume');
-Route::get('/show', [ResumeController::class, 'show'])->name('resume.show');
-Route::get('/download', [ResumeController::class, 'download'])->name('resume.download');
-
+Route::middleware([VisitorMiddleware::class])->group(function () {
+    Route::controller( ResumeController::class)->group(function () {
+        Route::get('/','resume')->name('resume');
+        Route::get('/show', 'show')->name('resume.show');
+        Route::get('/download', 'download')->name('resume.download');
+    });
+});
 
 
 Route::group(['prefix' => config('admin.admin_prefix')], function () {
