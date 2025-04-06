@@ -12,9 +12,19 @@
     </div>
 
 
-    @php($num = 1)
     @if(count($visitors))
         <div class="table-responsive small">
+
+            <form method="GET" action="{{ route('admin_visitor_list') }}" class="mb-4">
+                <input type="hidden" name="sort" value="{{ $sortOrder }}">
+                <label for="per_page">{{__('Show by:')}} </label>
+                <select name="per_page" id="per_page" onchange="this.form.submit()" class="border rounded px-2 py-1">
+                    <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                    <option value="15" {{ $perPage == 15 ? 'selected' : '' }}>15</option>
+                    <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>20</option>
+                </select>
+            </form>
+
             <table class="table table-striped table-sm">
                 <thead>
                 <tr>
@@ -22,22 +32,40 @@
                     <th scope="col">IP</th>
                     <th scope="col">{{__('Location')}}</th>
                     <th scope="col">{{__('Hits')}}</th>
-                    <th scope="col">{{__('VisitedDate')}}</th>
+                    <th>
+                        <a href="{{ route('admin_visitor_list', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}">
+                            {{__('VisitedDate')}}
+                            @if($sortOrder === 'asc')
+                                Old
+                            @else
+                                Fresh
+                            @endif
+                        </a>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($visitors as $visitor)
                     <tr>
-                        <td>{{$num}}</td>
+                        <td>
+                            {{ ($visitors->currentPage() - 1) * $visitors->perPage() + $loop->iteration }}
+                        </td>
                         <td>{{$visitor->ip}}</td>
                         <td>{{$visitor->location}}</td>
                         <td>{{$visitor->hits}}</td>
                         <td>{{$visitor->visited_date}}</td>
                     </tr>
-                    @php($num++)
                 @endforeach
                 </tbody>
             </table>
+
+            <!-- Pagination links -->
+            <div class="mt-4">
+{{--                {{ $visitors->links('pagination::bootstrap-5') }}--}}
+
+                {{ $visitors->appends(['sort' => $sortOrder, 'per_page' => $perPage])->links('pagination::bootstrap-5') }}
+            </div>
+
         </div>
 
     @else

@@ -4,17 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Visitor;
+use Illuminate\Http\Request;
+
 
 class VisitorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $visitors = Visitor::all();
+        $sortOrder = $request->get('sort', 'desc');
+        $perPage   = $request->get('per_page', 10);
+        $visitors = Visitor::orderBy('visited_date', $sortOrder)
+            ->paginate($perPage)
+            ->appends(['sort' => $sortOrder]);
 
-        return view('admin.visitors.list', compact('visitors'));
+        return view('admin.visitors.list', compact('visitors', 'sortOrder', 'perPage'));
     }
 
     /**
