@@ -5,7 +5,6 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\ResumeController;
 use App\Http\Middleware\VisitorMiddleware;
 
-
 Route::get('/home', function (){
     return redirect('admin');
 })->name('home');
