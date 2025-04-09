@@ -54,6 +54,7 @@ Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth']
 
     Route::group(['prefix' => 'visitors'], function () {
         Route::get('/', [AdminVisitorController::class, 'index'])->name('admin_visitor_list');
+        Route::post('/ban-update', [AdminVisitorController::class, 'banUpdate'])->name('admin_visitor_ban_update');
     });
 });
 

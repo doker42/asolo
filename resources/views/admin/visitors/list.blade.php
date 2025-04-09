@@ -32,6 +32,7 @@
                     <th scope="col">IP</th>
                     <th scope="col">{{__('Location')}}</th>
                     <th scope="col">{{__('Hits')}}</th>
+                    <th scope="col">{{__('Banned')}}</th>
                     <th>
                         <a href="{{ route('admin_visitor_list', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}">
                             {{__('VisitedDate')}}
@@ -53,6 +54,16 @@
                         <td>{{$visitor->ip}}</td>
                         <td>{{$visitor->location}}</td>
                         <td>{{$visitor->hits}}</td>
+                        @php($banned = $visitor->banned ? 'banned' : 'active')
+                        @php($ban    = $visitor->banned ? 0 : 1)
+                        <td>
+                            <form id="banned_{{$visitor->id}}" action="{{route('admin_visitor_ban_update', ['id' => $visitor->id, 'ban' => $ban])}}"  method="POST">
+                                @csrf
+                                <a class="btn btn-secondary btn-sm" title="Update banned" onclick="document.getElementById('banned_{{$visitor->id}}').submit(); return false;">
+                                    {{$banned}}
+                                </a>
+                            </form>
+                        </td>
                         <td>{{$visitor->visited_date}}</td>
                     </tr>
                 @endforeach
