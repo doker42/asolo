@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class VisitorController extends Controller
@@ -61,6 +62,19 @@ class VisitorController extends Controller
     public function update(UpdateVisitorRequest $request, Visitor $visitor)
     {
         //
+    }
+
+    public function banUpdate(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|string|exists:visitors,id',
+            'ban' => ['required', Rule::in([0,1])] ,
+        ]);
+
+        $visitor = Visitor::find($validated['id']);
+        $visitor->update(['banned' => $validated['ban']]);
+
+        return redirect(route('admin_visitor_list'));
     }
 
     /**

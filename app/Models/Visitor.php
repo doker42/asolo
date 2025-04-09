@@ -11,8 +11,18 @@ class Visitor extends Model
         'ip',
         'visited_date',
         'hits',
+        'banned',
         'location'
     ];
+
+
+    // todo replace to cache
+    public static function isBanned(string $ip)
+    {
+        $visitor = self::where('ip', $ip)->first();
+        return  $visitor ? $visitor->banned : false;
+    }
+
 
     public static function handle(string $ip): void
     {
