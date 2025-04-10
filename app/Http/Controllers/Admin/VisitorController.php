@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 
 
@@ -73,9 +74,27 @@ class VisitorController extends Controller
 
         $visitor = Visitor::find($validated['id']);
         $visitor->update(['banned' => $validated['ban']]);
+        $this->updateBanList();
 
         return redirect(route('admin_visitor_list'));
     }
+
+
+    protected function updateBanList()
+    {
+        if (Cache::has(Visitor::BAN_LIST)) {
+            Cache::forget(Visitor::BAN_LIST);
+        }
+
+        $banned = Visitor::where('banned', true)
+            ->get()
+            ->pluck('ip')
+            ->toArray();
+
+        Cache::forever(Visitor::BAN_LIST, $banned);
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

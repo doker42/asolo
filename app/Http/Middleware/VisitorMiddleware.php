@@ -19,7 +19,7 @@ class VisitorMiddleware
     {
         $ip = $request->getClientIp();
 
-        if (Visitor::isBanned($ip)) {  //todo replace to cache
+        if (Visitor::isBanned($ip)) {
             abort(404);
         }
 

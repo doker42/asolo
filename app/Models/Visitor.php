@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Services\LocationVisitors;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Visitor extends Model
 {
+    public const BAN_LIST = 'visitorsBanList';
+
     protected $fillable = [
         'ip',
         'visited_date',
@@ -16,11 +19,21 @@ class Visitor extends Model
     ];
 
 
-    // todo replace to cache
     public static function isBanned(string $ip)
     {
-        $visitor = self::where('ip', $ip)->first();
-        return  $visitor ? $visitor->banned : false;
+        $banned = false;
+        if (Cache::has(Visitor::BAN_LIST)) {
+            $banList = Cache::get(Visitor::BAN_LIST);
+            if (is_array($banList) && count($banList)) {
+                $banned = in_array($ip, $banList);
+            }
+        }
+        else {
+            $visitor = self::where('ip', $ip)->first();
+            $banned = $visitor ? $visitor->banned : false;
+        }
+
+        return $banned;
     }
 
 
