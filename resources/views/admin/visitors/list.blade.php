@@ -72,8 +72,6 @@
 
             <!-- Pagination links -->
             <div class="mt-4">
-{{--                {{ $visitors->links('pagination::bootstrap-5') }}--}}
-
                 {{ $visitors->appends(['sort' => $sortOrder, 'per_page' => $perPage])->links('pagination::bootstrap-5') }}
             </div>
 

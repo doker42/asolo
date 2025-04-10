@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\FileController as AdminFileController;
 use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 
 
 Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth'] ], function () {
@@ -49,6 +50,16 @@ Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth']
             Route::post('/store', 'store')->name('admin_work_store');
             Route::post('/update/{id}', 'update')->name('admin_work_update');
             Route::delete('/destroy/{id}', 'destroy')->name('admin_work_destroy');
+        });
+    });
+    Route::group(['prefix' => 'settings'], function () {
+        Route::controller( AdminSettingController::class)->group(function () {
+            Route::get('/list', 'index')->name('admin_setting_list');
+            Route::get('/create', 'create')->name('admin_setting_create');
+            Route::get('/edit/{id}', 'edit')->name('admin_setting_edit');
+            Route::post('/store', 'store')->name('admin_setting_store');
+            Route::post('/update/{id}', 'update')->name('admin_setting_update');
+            Route::delete('/destroy/{id}', 'destroy')->name('admin_setting_destroy');
         });
     });
 
