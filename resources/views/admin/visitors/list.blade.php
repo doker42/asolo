@@ -32,6 +32,7 @@
                     <th scope="col">IP</th>
                     <th scope="col">{{__('Location')}}</th>
                     <th scope="col">{{__('Hits')}}</th>
+                    <th scope="col">{{__('Details')}}</th>
                     <th scope="col">{{__('Banned')}}</th>
                     <th>
                         <a href="{{ route('admin_visitor_list', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}">
@@ -54,6 +55,46 @@
                         <td>{{$visitor->ip}}</td>
                         <td>{{$visitor->location}}</td>
                         <td>{{$visitor->hits}}</td>
+                        <td>
+                            <button class="btn btn-outline-secondary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#visitorModal{{ $visitor->id }}"
+                            >
+                                {{__('Details')}}
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="visitorModal{{ $visitor->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $visitor->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel{{ $visitor->id }}">Visitor Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p><strong>IP:</strong> {{ $visitor->ip }}</p>
+                                            <p><strong>Location:</strong> {{ $visitor->location }}</p>
+                                            <p><strong>Hits:</strong> {{ $visitor->hits }}</p>
+                                            <!-- Add more fields as needed -->
+                                            @if(count($visitor->urls))
+                                            <ul>
+                                                @foreach($visitor->urls as $url)
+                                                    <li><p><strong>{{$url->method}}</strong> <strong> {{$url->uri}}</strong></p></li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal -->
+                        </td>
                         @php($banned = $visitor->banned ? 'banned' : 'active')
                         @php($ban    = $visitor->banned ? 0 : 1)
                         <td>

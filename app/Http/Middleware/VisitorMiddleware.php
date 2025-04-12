@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Jobs\HandleRequest;
+use App\Jobs\LogRequestedUrl;
 use App\Jobs\VisitorLocationSet;
 use App\Models\Visitor;
 use Closure;
@@ -17,14 +19,23 @@ class VisitorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $ip = $request->getClientIp();
+        $data = $this->getRequestData($request);
 
-        if (Visitor::isBanned($ip)) {  //todo replace to cache
-            abort(404);
+        if (Visitor::isBanned($data['ip'])) {  //todo replace to cache
+            abort(404);  //todo make sleep !!!
         }
 
-        dispatch(new VisitorLocationSet($ip));
+        dispatch(new HandleRequest($data));
 
         return $next($request);
+    }
+
+    protected function getRequestData(Request $request): array
+    {
+        return [
+            'ip'     => $request->getClientIp(),
+            'url'    => $request->getRequestUri(),
+            'method' => $request->method(),
+        ];
     }
 }
