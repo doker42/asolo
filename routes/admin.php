@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\FileController as AdminFileController;
 use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
-
+use App\Http\Controllers\Admin\Fail2BanController as AdminFail2BanController;
 
 Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth'] ], function () {
 
@@ -62,11 +62,22 @@ Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth']
             Route::delete('/destroy/{id}', 'destroy')->name('admin_setting_destroy');
         });
     });
-
     Route::group(['prefix' => 'visitors'], function () {
-        Route::get('/', [AdminVisitorController::class, 'index'])->name('admin_visitor_list');
-        Route::post('/ban-update', [AdminVisitorController::class, 'banUpdate'])->name('admin_visitor_ban_update');
+        Route::controller( AdminVisitorController::class)->group(function () {
+            Route::get('/', 'index')->name('admin.visitor.list');
+            Route::post('/ban-update', 'banUpdate')->name('admin.visitor.ban_update');
+//            Route::get('/ip-search', 'autocompleteByIp')->name('admin.ip.search');
+        });
+
     });
+//    Route::group(['prefix' => 'fail2ban'], function () {
+//        Route::controller( AdminFail2BanController::class)->group(function () {
+//            Route::get('/banned-ips', 'index')->name('admin.fail2ban.index');
+//        });
+//    });
+
+
+
 });
 
 

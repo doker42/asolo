@@ -2,20 +2,28 @@
 
 @section('dashboard')
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">{{__('Visitors')}}</h1>
         <div class="btn-group me-2">
-            <a href="{{route('admin_visitor_list')}}" class="btn btn-sm btn-outline-primary">
+            <a href="{{route('admin.visitor.list')}}" class="btn btn-sm btn-outline-primary">
                 {{__("List")}}
             </a>
         </div>
     </div>
 
-
     @if(count($visitors))
         <div class="table-responsive small">
+{{--            <input type="text" id="ip-search" placeholder="Search by IP..." class="form-control mb-3">--}}
+            <div class="btn-group me-2">
+                <form class="d-flex mb-4 me-2 " role="search" method="GET" action="{{ route('admin.visitor.list') }}">
+                    <input name="ip" class="form-control me-2" type="text" placeholder="Search" aria-label="Search by IP ...">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+            </div>
 
-            <form method="GET" action="{{ route('admin_visitor_list') }}" class="mb-4">
+            <form method="GET" action="{{ route('admin.visitor.list') }}" class="mb-4">
                 <input type="hidden" name="sort" value="{{ $sortOrder }}">
                 <label for="per_page">{{__('Show by:')}} </label>
                 <select name="per_page" id="per_page" onchange="this.form.submit()" class="border rounded px-2 py-1">
@@ -36,7 +44,7 @@
                     <th scope="col">{{__('Details')}}</th>
                     <th scope="col">{{__('Banned')}}</th>
                     <th>
-                        <a href="{{ route('admin_visitor_list', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}">
+                        <a href="{{ route('admin.visitor.list', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}">
                             {{__('VisitedDate')}}
                             @if($sortOrder === 'asc')
                                 Old
@@ -103,7 +111,7 @@
                         @php($btnClass = $visitor->banned ? 'btn-secondary' : 'btn-outline-primary')
                         @php($ban      = $visitor->banned ? 0 : 1)
                         <td>
-                            <form id="banned_{{$visitor->id}}" action="{{route('admin_visitor_ban_update', ['id' => $visitor->id, 'ban' => $ban])}}"  method="POST">
+                            <form id="banned_{{$visitor->id}}" action="{{route('admin.visitor.ban_update', ['id' => $visitor->id, 'ban' => $ban])}}"  method="POST">
                                 @csrf
                                 <a class="btn {{$btnClass}} btn-sm" title="Update banned" onclick="document.getElementById('banned_{{$visitor->id}}').submit(); return false;">
                                     {{$banned}}
@@ -128,5 +136,87 @@
         <h2>{{__('No visitors')}}</h2>
 
     @endif
+
+{{--    <script>--}}
+{{--        document.addEventListener('DOMContentLoaded', function () {--}}
+{{--            const searchInput = document.getElementById('ip-search');--}}
+
+{{--            let timeout;--}}
+{{--            searchInput.addEventListener('input', function () {--}}
+{{--                clearTimeout(timeout);--}}
+
+{{--                const query = this.value;--}}
+{{--                if (query.length < 2) return;--}}
+
+{{--                timeout = setTimeout(() => {--}}
+{{--                    // fetch(`/ip-search?term=${encodeURIComponent(query)}`)--}}
+{{--                    fetch(`{{route('admin.ip.search')}}?query=${encodeURIComponent(query)}`,{--}}
+{{--                        headers: {--}}
+{{--                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),--}}
+{{--                            'Accept': 'application/json'--}}
+{{--                        }--}}
+{{--                    })--}}
+{{--                        .then(res => res.json())--}}
+{{--                        .then(data => {--}}
+{{--                            const list = document.getElementById('autocomplete-list') || createList();--}}
+
+{{--                            list.innerHTML = '';--}}
+{{--                            data.forEach(ip => {--}}
+{{--                                console.log(ip.ip);--}}
+{{--                                const item = document.createElement('div');--}}
+{{--                                item.textContent = ip.ip;--}}
+{{--                                item.classList.add('autocomplete-item');--}}
+{{--                                item.addEventListener('click', () => {--}}
+{{--                                    searchInput.value = ip.ip;--}}
+{{--                                    list.innerHTML = '';--}}
+{{--                                    filterTable(ip);--}}
+{{--                                });--}}
+{{--                                list.appendChild(item);--}}
+{{--                            });--}}
+{{--                        });--}}
+{{--                }, 300);--}}
+{{--            });--}}
+
+{{--            function createList() {--}}
+{{--                const list = document.createElement('div');--}}
+{{--                list.id = 'autocomplete-list';--}}
+{{--                list.className = 'autocomplete-items';--}}
+{{--                searchInput.parentNode.appendChild(list);--}}
+{{--                return list;--}}
+{{--            }--}}
+
+{{--            function filterTable(ip) {--}}
+{{--                console.log(ip);--}}
+{{--                const rows = document.querySelectorAll('table tbody tr');--}}
+{{--                rows.forEach(row => {--}}
+{{--                    const ipCell = row.querySelector('td.ip-cell'); // ensure this class is on your IP column--}}
+{{--                    if (ipCell && ipCell.textContent.includes(ip)) {--}}
+{{--                        row.style.display = '';--}}
+{{--                    } else {--}}
+{{--                        row.style.display = 'none';--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        });--}}
+{{--    </script>--}}
+
+{{--    <style>--}}
+{{--        .autocomplete-items {--}}
+{{--            position: absolute;--}}
+{{--            border: 1px solid #ddd;--}}
+{{--            background-color: #fff;--}}
+{{--            z-index: 99;--}}
+{{--            max-height: 200px;--}}
+{{--            overflow-y: auto;--}}
+{{--            width: 100%;--}}
+{{--        }--}}
+{{--        .autocomplete-item {--}}
+{{--            padding: 10px;--}}
+{{--            cursor: pointer;--}}
+{{--        }--}}
+{{--        .autocomplete-item:hover {--}}
+{{--            background-color: #f0f0f0;--}}
+{{--        }--}}
+{{--    </style>--}}
 
 @endsection

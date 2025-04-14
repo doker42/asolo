@@ -16,9 +16,17 @@ class VisitorController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'ip' => 'nullable|string|max:32'
+        ]);
+        $ip = $request->get('ip');
         $sortOrder = $request->get('sort', 'desc');
         $perPage   = $request->get('per_page', 15);
-        $visitors = Visitor::orderBy('visited_date', $sortOrder)
+        $visitorQuery = Visitor::query();
+        if ($ip) {
+            $visitorQuery->where("ip","LIKE","%$ip%");
+        }
+        $visitors = $visitorQuery->orderBy('visited_date', $sortOrder)
             ->paginate($perPage)
             ->appends(['sort' => $sortOrder]);
 
@@ -78,7 +86,7 @@ class VisitorController extends Controller
         $visitor->update(['banned' => $validated['ban']]);
         $this->updateBanList();
 
-        return redirect(route('admin_visitor_list'));
+        return redirect(route('admin.visitor.list'));
     }
 
 
@@ -102,5 +110,15 @@ class VisitorController extends Controller
     public function destroy(Visitor $visitor)
     {
         //
+    }
+
+
+    public function autocompleteByIp(Request $request)
+    {
+        $data = Visitor::where("ip","LIKE","%{$request->input('query')}%")
+            ->limit(10)
+            ->get();
+
+        return response()->json($data);
     }
 }

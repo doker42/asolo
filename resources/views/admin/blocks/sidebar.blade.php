@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{{route('admin_visitor_list', ['id' => 1])}}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="{{route('admin.visitor.list', ['id' => 1])}}">
                         <svg class="bi"><use xlink:href="#people"/></svg>
                         {{__('Visitors')}}
                     </a>
@@ -59,12 +59,6 @@
             <hr class="my-3">
 
             <ul class="nav flex-column mb-auto">
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link d-flex align-items-center gap-2 disabled" href="#">--}}
-{{--                        <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>--}}
-{{--                        Settings--}}
-{{--                    </a>--}}
-{{--                </li>--}}
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
