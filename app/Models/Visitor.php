@@ -26,6 +26,19 @@ class Visitor extends Model
     }
 
 
+    private function urlsArray()
+    {
+        return $this->urls()->pluck('uri')->toArray();
+    }
+
+
+    public function hasExtraUri()
+    {
+        $extraUrls = array_diff($this->urlsArray(),config('admin.site_urls'));
+        return !empty($extraUrls);
+    }
+
+
     public static function isBanned(string $ip)
     {
         $banned = false;
