@@ -19,6 +19,10 @@ class Visitor extends Model
         'location'
     ];
 
+    public function agents()
+    {
+        return $this->hasMany(Agent::class);
+    }
 
     public function urls()
     {
@@ -65,11 +69,11 @@ class Visitor extends Model
         $location = $location ? $location['country'] . " : " . $location['city'] : "noname";
         $visitor = Visitor::updateOrCreate([
             'ip' => $ip,
-            'location' => $location
+            'location' => $location,
         ],
-            [
-                'visited_date' => $visited_date
-            ]);
+        [
+            'visited_date' => $visited_date
+        ]);
         $visitor->increment('hits');
 
         return $visitor;
