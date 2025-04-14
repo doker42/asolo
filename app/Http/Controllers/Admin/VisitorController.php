@@ -17,12 +17,14 @@ class VisitorController extends Controller
     public function index(Request $request)
     {
         $sortOrder = $request->get('sort', 'desc');
-        $perPage   = $request->get('per_page', 10);
+        $perPage   = $request->get('per_page', 15);
         $visitors = Visitor::orderBy('visited_date', $sortOrder)
             ->paginate($perPage)
             ->appends(['sort' => $sortOrder]);
 
-        return view('admin.visitors.list', compact('visitors', 'sortOrder', 'perPage'));
+        $siteUrls = config('admin.site_urls');
+
+        return view('admin.visitors.list', compact('visitors', 'sortOrder', 'perPage', 'siteUrls'));
     }
 
     /**

@@ -6,4 +6,10 @@ return [
 
     'logo'   =>  env('LOGO', 'VIT_CHE'),
 
+    'site_urls' => [
+        '/',
+        '/show',
+        '/download',
+    ],
+
 ];

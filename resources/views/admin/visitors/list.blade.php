@@ -29,6 +29,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">IP</th>
                     <th scope="col">{{__('Location')}}</th>
                     <th scope="col">{{__('Hits')}}</th>
@@ -52,11 +53,13 @@
                         <td>
                             {{ ($visitors->currentPage() - 1) * $visitors->perPage() + $loop->iteration }}
                         </td>
+                        <td>{{$visitor->id}}</td>
                         <td>{{$visitor->ip}}</td>
                         <td>{{$visitor->location}}</td>
                         <td>{{$visitor->hits}}</td>
                         <td>
-                            <button class="btn btn-outline-secondary btn-sm"
+                            @php($btnClass = $visitor->hasExtraUri() ? 'btn-outline-danger' : 'btn-outline-secondary')
+                            <button class="btn {{$btnClass}} btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#visitorModal{{ $visitor->id }}"
                             >
@@ -80,7 +83,8 @@
                                             @if(count($visitor->urls))
                                             <ul>
                                                 @foreach($visitor->urls as $url)
-                                                    <li><p><strong>{{$url->method}}</strong> <strong> {{$url->uri}}</strong></p></li>
+                                                    @php($color = in_array($url->uri, $siteUrls) ? 'white' : 'red')
+                                                    <li><p style="color: {{$color}}"><strong>{{$url->method}}</strong> <strong> {{$url->uri}}</strong></p></li>
                                                 @endforeach
                                             </ul>
                                             @endif
@@ -95,12 +99,13 @@
                             </div>
                             <!-- End Modal -->
                         </td>
-                        @php($banned = $visitor->banned ? 'banned' : 'active')
-                        @php($ban    = $visitor->banned ? 0 : 1)
+                        @php($banned   = $visitor->banned ? 'banned' : 'active')
+                        @php($btnClass = $visitor->banned ? 'btn-secondary' : 'btn-outline-primary')
+                        @php($ban      = $visitor->banned ? 0 : 1)
                         <td>
                             <form id="banned_{{$visitor->id}}" action="{{route('admin_visitor_ban_update', ['id' => $visitor->id, 'ban' => $ban])}}"  method="POST">
                                 @csrf
-                                <a class="btn btn-secondary btn-sm" title="Update banned" onclick="document.getElementById('banned_{{$visitor->id}}').submit(); return false;">
+                                <a class="btn {{$btnClass}} btn-sm" title="Update banned" onclick="document.getElementById('banned_{{$visitor->id}}').submit(); return false;">
                                     {{$banned}}
                                 </a>
                             </form>
