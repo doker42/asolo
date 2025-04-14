@@ -3,27 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
-class Url extends Model
+class Agent extends Model
 {
     protected $fillable = [
-        'uri',
-        'method',
+        'name',
         'visitor_id'
     ];
 
     public static function store(Visitor $visitor, array $data)
     {
-        Url::firstOrCreate(
+        self::firstOrCreate(
             [
                 'visitor_id' => $visitor->id,
-                'uri'        => $data['url'],
-                'method'     => $data['method'],
+                'name'       => $data['agent'],
             ],
             []
         );
     }
-
 }
-
-

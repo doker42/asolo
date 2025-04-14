@@ -12,4 +12,24 @@ return [
         '/download',
     ],
 
+    'bad_agents' => [
+        'curl',
+        'sqlmap',
+        'python',
+        'nmap',
+        'scanner',
+        'libwww'
+    ],
+
+    'bad_paths' => [
+        'phpmyadmin',
+        'wp-login.php',
+        'admin.php',
+        'xmlrpc.php',
+        'env',
+        '.env',
+        '.git',
+        '.bash'
+    ],
+
 ];

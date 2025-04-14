@@ -87,7 +87,7 @@
                                             <p><strong>IP:</strong> {{ $visitor->ip }}</p>
                                             <p><strong>Location:</strong> {{ $visitor->location }}</p>
                                             <p><strong>Hits:</strong> {{ $visitor->hits }}</p>
-                                            <!-- Add more fields as needed -->
+                                            {{--   visitors urls  --}}
                                             @if(count($visitor->urls))
                                             <ul>
                                                 @foreach($visitor->urls as $url)
@@ -95,6 +95,14 @@
                                                     <li><p style="color: {{$color}}"><strong>{{$url->method}}</strong> <strong> {{$url->uri}}</strong></p></li>
                                                 @endforeach
                                             </ul>
+                                            @endif
+                                            {{--   visitors agents  --}}
+                                            @if(count($visitor->agents))
+                                                <ul>
+                                                    @foreach($visitor->agents as $agent)
+                                                        <li><p>Agent : <strong>{{ \Illuminate\Support\Str::limit($agent->name, 21, '...') }}</strong></p></li>
+                                                    @endforeach
+                                                </ul>
                                             @endif
                                         </div>
 
