@@ -34,13 +34,6 @@
                                 <input name="name" type="text" class="form-control" value="{{$setting->name}}" required>
                             </div>
                         </div>
-                        {{-- DESCR --}}
-                        <div class="col-sm-12 mb-3">
-                            <label>{{__('Description')}}</label>
-                            <div class="form-group">
-                                <textarea name="description" class="form-control" placeholder="{{'Description'}}" style="height: 100px">{{$setting->description}}</textarea>
-                            </div>
-                        </div>
                         {{-- VALUE --}}
                         <div class="col-sm-12 mb-3">
                             <div class="form-group">
@@ -48,16 +41,34 @@
                                 <input name="value" type="text" class="form-control" value="{{$setting->value}}">
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        {{-- DESCR --}}
+                        <div class="col-sm-12 mb-3">
+                            <label>{{__('Description')}}</label>
+                            <div class="form-group">
+                                <textarea name="description" class="form-control" placeholder="{{'Description'}}" style="height: 100px">{{$setting->description}}</textarea>
+                            </div>
+                        </div>
+                        {{-- VALUES --}}
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label>{{__('Values')}}</label>
+                                <div class="form-group">
+                                    <textarea name="values" class="form-control" placeholder="{{'Values'}}" style="height: 100px">{{$setting->values}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
                         {{-- DATA --}}
                         <div class="col-sm-12 mb-3">
                             <label>{{__('Data')}}</label>
                             <div class="form-group">
-                                <textarea name="data" class="form-control" placeholder="{{'Data'}}" style="height: 100px">
-                                    {{json_encode($setting->data)}}
-                                </textarea>
+                                <textarea name="data" class="form-control" placeholder="{{'Data'}}" style="height: 100px">{{json_encode($setting->data)}}</textarea>
                             </div>
                         </div>
-
                     </div>
 
                     <button type="submit" class="btn btn-sm btn-outline-primary mt-3">{{__('UPDATE')}}</button>

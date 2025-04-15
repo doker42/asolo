@@ -6,10 +6,12 @@ use App\Services\LocationVisitors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Visitor extends Model
 {
     public const BAN_LIST = 'visitorsBanList';
+    public const IGNORED_IP = 'ignored_ip';
 
     protected $fillable = [
         'ip',
@@ -69,13 +71,30 @@ class Visitor extends Model
         $location = $location ? $location['country'] . " : " . $location['city'] : "noname";
         $visitor = Visitor::updateOrCreate([
             'ip' => $ip,
-            'location' => $location,
         ],
         [
+            'location' => $location,
             'visited_date' => $visited_date
         ]);
         $visitor->increment('hits');
 
         return $visitor;
+    }
+
+    public static function isIgnoredIp(string $ip): bool
+    {
+        $ignored = false;
+        if (Cache::has(IgnoredIp::IGNORED_IP_LIST)) {
+            $ignoredIpList = Cache::get(IgnoredIp::IGNORED_IP_LIST);
+            if (is_array($ignoredIpList) && count($ignoredIpList)) {
+                $ignored = in_array($ip, $ignoredIpList);
+            }
+        }
+        else {
+            $ip = IgnoredIp::where('ip', $ip)->first();
+            $ignored = (bool)$ip;
+        }
+
+        return $ignored ;
     }
 }

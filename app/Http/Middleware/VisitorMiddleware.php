@@ -21,19 +21,20 @@ class VisitorMiddleware
     {
         $data = $this->getRequestData($request);
 
+        if (Visitor::isIgnoredIp($data['ip'])) {
+            return $next($request);
+        }
+
         if (Visitor::isBanned($data['ip'])) {
             sleep(100);
             abort(404);
         }
 
-        $badAgents = config('admin.bad_agents');
-        $badPaths = config('admin.bad_paths');
-
         if (
-            collect($badAgents)->first(fn($agent) => str_contains($data['agent'], $agent)) ||
-            collect($badPaths)->first(fn($segment) => str_contains($data['path'], $segment))
+            collect(config('admin.bad_agents'))->first(fn($agent) => str_contains($data['agent'], $agent)) ||
+            collect(config('admin.bad_paths'))->first(fn($segment) => str_contains($data['path'], $segment))
         ) {
-            sleep(30);
+            sleep(60);
             return response('Access Denied', 418)
                 ->header('X-Defense', 'Honeypot')
                 ->header('Retry-After', '86400'); // 1 день
@@ -58,6 +59,4 @@ class VisitorMiddleware
             'agent'  => strtolower($request->userAgent() ?? ''),
         ];
     }
-
-
 }

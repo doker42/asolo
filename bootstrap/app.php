@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
 //        $middleware->append(\App\Http\Middleware\LocaleMiddleware::class);
         $middleware->append(\App\Http\Middleware\VisitorMiddleware::class);
+        $middleware->append(\App\Http\Middleware\Throttle404Middleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

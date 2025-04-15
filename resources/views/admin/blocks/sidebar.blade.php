@@ -54,6 +54,12 @@
                         {{__('Settings')}}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" href="{{route('admin.ignored_ip.list')}}">
+                        <svg class="bi"><use xlink:href="#people"/></svg>
+                        {{__('IgnoredIps')}}
+                    </a>
+                </li>
             </ul>
 
             <hr class="my-3">

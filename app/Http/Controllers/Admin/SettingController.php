@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -14,7 +15,6 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::all();
-
         return view('admin.settings.list', compact('settings'));
     }
 
@@ -32,17 +32,21 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'  => 'required|string|max:255|min:3',
-            'value' => 'nullable|string|max:255',
+            'name'   => 'required|string|max:255|min:3|unique:settings,name',
+            'value'  => 'nullable|string|max:255',
+            'values' => 'nullable|string|max:2550',
             'description' => 'nullable|string|max:2550',
-            'data'  => 'nullable|json'
+            'data'   => 'nullable|json'
         ]);
 
         $validated = array_filter($validated);
 
         if (!empty($validated)) {
+            if (!empty($validated['data'])) {
+                $validated['data'] = json_decode($validated['data']);
+            }
+            $validated['slug'] = Str::slug($validated['name'], '_');
             $setting = Setting::create($validated);
-
             if ($setting) {
                 return redirect(route('admin_setting_list'))->withStatus('Settings created!');
             }
@@ -74,7 +78,7 @@ class SettingController extends Controller
     {
         $request->merge(['id' => $id]);
         $validated = $request->validate([
-            'id'  => 'required|exists:settings,id',
+            'id'    => 'required|exists:settings,id',
             'name'  => 'required|string|max:255|min:3',
             'value' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:2550',
@@ -84,6 +88,10 @@ class SettingController extends Controller
         $validated = array_filter($validated);
 
         if (!empty($validated)) {
+            if (!empty($validated['data'])) {
+                $validated['data'] = json_decode($validated['data']);
+            }
+            $validated['slug'] = Str::slug($validated['name'], '_');
             $setting = Setting::where('id', $id)
                 ->update($validated);
 

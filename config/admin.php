@@ -12,24 +12,48 @@ return [
         '/download',
     ],
 
+//    'bad_agents' => explode(',', env('BAD_AGENTS', 'nmap')),
+
     'bad_agents' => [
         'curl',
         'sqlmap',
         'python',
         'nmap',
         'scanner',
-        'libwww'
+        'libwww',
+        'go-http-client'
     ],
 
+//    'bad_paths' => explode(',', env('BAD_PATHS','.git')),
+
     'bad_paths' => [
+        'wp-admin',
+        'wordpress',
+        'config',
+        'application',
+        'secrets',
+        'db.ini',
+        'secure',
+        'wp-config',
+        'phpinfo',
+        'administrator',
+        'cgi-bin',
+        'laravel',
+        'package',
+        'openapi',
         'phpmyadmin',
-        'wp-login.php',
+        'wp-login',
         'admin.php',
-        'xmlrpc.php',
+        'xmlrpc',
         'env',
         '.env',
         '.git',
-        '.bash'
+        '.bash',
+        'openapi',
+        'backup',
+        'sql',
+        'var/',
+        'sitemap'
     ],
 
 ];

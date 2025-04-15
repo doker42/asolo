@@ -8,8 +8,10 @@ class Setting extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'value',
+        'values',
         'data'
     ];
 

@@ -23,8 +23,10 @@
                     <th scope="col">#</th>
                     <th scope="col">ID</th>
                     <th scope="col">{{__('Name')}}</th>
+                    <th scope="col">{{__('Slug')}}</th>
                     <th scope="col">{{__('Description')}}</th>
                     <th scope="col">{{__('Value')}}</th>
+                    <th scope="col">{{__('Values')}}</th>
                     <th scope="col">{{__('Data')}}</th>
                     <th scope="col">{{__('Actions')}}</th>
                 </tr>
@@ -35,12 +37,15 @@
                         <td>{{$num}}</td>
                         <td>{{$setting->id}}</td>
                         <td>{{$setting->name}}</td>
+                        <td>{{$setting->slug}}</td>
                         <td>{{$setting->description}}</td>
                         <td>{{$setting->value}}</td>
+                        <td>{{$setting->values}}</td>
                         <td>
                             @if(isset($setting->data))
-                                <ul>
+                                <ul class="dot-none">
                                     @foreach ($setting->data as $key => $value)
+                                        @php($value = is_array($value) ? implode('/', $value) : $value)
                                         <li>{{ $key }} : {{ $value }}</li>
                                     @endforeach
                                 </ul>

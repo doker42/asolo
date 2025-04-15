@@ -27,12 +27,21 @@
                     @csrf
                     <div class="row">
                         {{-- NAME --}}
-                        <div class="col-sm-12 mb-3">
+                        <div class="col-sm-6 mb-3">
                             <div class="form-group">
                                 <label>{{__('Name')}}</label>
                                 <input name="name" type="text" class="form-control" value="{{old('name')}}" required>
                             </div>
                         </div>
+                        {{-- VALUE --}}
+                        <div class="col-sm-6 mb-3">
+                            <div class="form-group">
+                                <label>{{__('Value')}}</label>
+                                <input name="value" type="text" class="form-control" value="{{old('value')}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         {{-- DESCR --}}
                         <div class="col-sm-6 mb-3">
                             <div class="form-group">
@@ -42,23 +51,25 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- VALUE --}}
+                        {{-- VALUES --}}
                         <div class="col-sm-6 mb-3">
                             <div class="form-group">
-                                <label>{{__('Value')}}</label>
-                                <input name="value" type="text" class="form-control" value="{{old('value')}}">
+                                <label>{{__('Values')}}</label>
+                                <div class="form-group">
+                                    <textarea name="values" class="form-control" placeholder="{{'Values'}}" style="height: 100px">{{old('values')}}</textarea>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row">
                         {{-- DATA --}}
                         <div class="col-sm-6 mb-3">
                             <div class="form-group">
                                 <label>{{__('Data')}}</label>
-                                <textarea name="data" class="form-control" placeholder="{{'Data'}}" style="height: 100px">{{old('data')}}</textarea>
+                                <textarea name="data" class="form-control" placeholder="" style="height: 100px">{{old('data')}}</textarea>
                             </div>
                         </div>
-
                     </div>
                     <button type="submit" class="btn btn-sm btn-outline-primary mt-3">Add</button>
                 </form>
