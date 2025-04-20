@@ -28,7 +28,7 @@ class Throttle404Middleware
         $attempts = Cache::get($key, 0);
 
         if ($attempts >= 3) {
-            sleep(60 * 10);
+            sleep(60 * 15);
         }
 
         $response = $next($request);

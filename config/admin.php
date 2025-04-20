@@ -28,10 +28,14 @@ return [
 
     'bad_paths' => [
         'wp-admin',
+        'cms',
+        'sdk',
+        'whoami',
+        'login',
         'wordpress',
         'config',
         'application',
-        'secrets',
+        'secret',
         'db.ini',
         'secure',
         'wp-config',
@@ -53,7 +57,8 @@ return [
         'backup',
         'sql',
         'var/',
-        'sitemap'
+        'sitemap',
+        'query',
     ],
 
 ];

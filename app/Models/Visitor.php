@@ -65,11 +65,12 @@ class Visitor extends Model
 
     public static function store(array $data): Visitor
     {
-        $ip = $data['ip'];
+        $ip     = $data['ip'];
+        $method = $data['method'];
         $visited_date = Date("Y-m-d:H:i:s");
         $location = LocationVisitors::getLocation($ip);
         $location = $location ? $location['country'] . " : " . $location['city'] : "noname";
-        $visitor = Visitor::updateOrCreate([
+        $visitor  = Visitor::updateOrCreate([
             'ip' => $ip,
         ],
         [
@@ -77,6 +78,10 @@ class Visitor extends Model
             'visited_date' => $visited_date
         ]);
         $visitor->increment('hits');
+
+        if ($method != Url::GET_METHOD) {
+            $visitor->banned = true;
+        }
 
         return $visitor;
     }
