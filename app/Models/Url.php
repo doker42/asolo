@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Url extends Model
 {
+    public const GET_METHOD = 'GET';
+
     protected $fillable = [
         'uri',
         'method',
