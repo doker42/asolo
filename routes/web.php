@@ -1,10 +1,27 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ResumeController;
 use App\Http\Middleware\VisitorMiddleware;
 
+Route::group(['prefix' => 'articles'], function () {
+    Route::controller( ArticleController::class)->group(function () {
+        Route::get('/','index')->name('articles.index');
+        Route::get('/show/{article}', 'show')->name('articles.show');
+
+        Route::group(['middleware' => ['auth']], function (){
+            Route::get('/create', 'create')->name('articles.create');
+            Route::get('/edit/{article}', 'edit')->name('articles.edit');
+            Route::post('/store', 'store')->name('articles.store');
+            Route::post('/update/{article}', 'update')->name('articles.update');
+            Route::patch('/{article}/toggle-published', 'togglePublished')->name('articles.toggle-published');
+            Route::delete('/{article}', 'destroy')->name('articles.destroy');
+            Route::post('/images/upload', 'uploadImage')->name('articles.image.upload');
+        });
+    });
+});
 
 //Route::middleware([VisitorMiddleware::class])->group(function () {
 
