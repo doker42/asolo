@@ -144,15 +144,22 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        foreach ($article->images as $image) {
-            if (Storage::disk('public')->exists($image->path)) {
-                Storage::disk('public')->delete($image->path);
-            }
-            $image->delete(); // удаляем запись из БД
+        $article = Article::find($article->id);
+        if (!$article) {
+            return redirect()->route('articles.index')->withError('Wrong data!.');
         }
 
-        $article->delete(); // удаляем статью
+        foreach ($article->images as $image) {
+            if ($image->image_path) {
+                if (Storage::disk('public')->exists($image->image_path)) {
+                    Storage::disk('public')->delete($image->image_path);
+                }
+                $image->delete();
+            }
+        }
 
-        return redirect()->route('articles.index')->with('success', 'Статья удалена');
+        $article->delete();
+
+        return redirect()->route('articles.index')->with('status', 'Статья удалена');
     }
 }
