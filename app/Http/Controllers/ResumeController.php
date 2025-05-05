@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\About;
 use App\Models\Info;
 use App\Models\Work;
+use App\Services\SEOService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 
 class ResumeController extends Controller
 {
     /**
+     * @param SEOService $seo
      * @return View
      */
-    public function resume(): View
+    public function resume(SEOService $seo,): View
     {
         $about = About::single();
         $works = Work::orderBy('start_date', 'desc')->get();
@@ -21,6 +23,17 @@ class ResumeController extends Controller
         if (!$about || !$works || !$about->image?->name) {
             return view('resume.nodata');
         }
+
+        $seo->setMeta(
+            'acode developer',
+            'laravel php developing',
+            route('resume'),
+            [
+                'type'         => 'developer resume',
+//                'twitter_site' => '@YourHandle',
+                'schema'       => 'Resume'
+            ]
+        );
 
         $data = [
             'about' => $about,
@@ -44,8 +57,6 @@ class ResumeController extends Controller
         if (!$about || !$works || !count($works) || !$info) {
             return view('resume.nodata');
         }
-
-//        dd($about);
 
         $data = [
             'about' => $about,

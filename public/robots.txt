@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://asolopro.ovh/sitemap.xml
+Sitemap: https://acode.ovh/sitemap.xml
