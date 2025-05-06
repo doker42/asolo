@@ -30,9 +30,9 @@ class VisitorController extends Controller
             ->paginate($perPage)
             ->appends(['sort' => $sortOrder]);
 
-        $siteUrls  = config('admin.site_urls');
-        $badAgents = config('admin.bad_agents');
-        $badPaths  = config('admin.bad_paths');
+        $siteUrls  = config('visitors.site_urls');
+        $badAgents = config('visitors.bad_agents');
+        $badPaths  = config('visitors.bad_paths');
 
         return view('admin.visitors.list',
             compact('visitors', 'sortOrder', 'perPage', 'siteUrls','badAgents', 'badPaths'));

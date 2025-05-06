@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Jobs\HandleRequest;
-use App\Jobs\VisitorLocationSet;
 use App\Models\Visitor;
 use Closure;
 use Illuminate\Http\Request;
@@ -31,8 +30,8 @@ class VisitorMiddleware
         }
 
         if (
-            collect(config('admin.bad_agents'))->first(fn($agent) => str_contains($data['agent'], $agent)) ||
-            collect(config('admin.bad_paths'))->first(fn($segment) => str_contains($data['path'], $segment))
+            collect(config('visitors.bad_agents'))->first(fn($agent) => str_contains($data['agent'], $agent)) ||
+            collect(config('visitors.bad_paths'))->first(fn($segment) => str_contains($data['path'], $segment))
         ) {
             sleep(60);
             return response('Access Denied', 418)

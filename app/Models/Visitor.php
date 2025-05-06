@@ -40,7 +40,7 @@ class Visitor extends Model
 
     public function hasExtraUri()
     {
-        $extraUrls = array_diff($this->urlsArray(),config('admin.site_urls'));
+        $extraUrls = array_diff($this->urlsArray(),config('visitors.site_urls'));
         return !empty($extraUrls);
     }
 
