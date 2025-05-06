@@ -16,6 +16,8 @@ class LocationVisitors
             ];
         }
 
+        sleep(2);
+
         try {
             $client = new Client();
             $response = $client->get("http://ip-api.com/json/{$ip}");

@@ -9,7 +9,7 @@
     @php  use Artesaos\SEOTools\Facades\SEOTools; @endphp
     {!! SEOTools::generate() !!}
 
-    <title>VIT_CHE</title>
+    <title>ACODE</title>
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicons/favicon-32x32.png')}}"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
