@@ -89,6 +89,7 @@ class WorkController extends Controller
             'company_name' => 'required|string|max:255',
             'company_link' => 'nullable|string|max:255|url:http,https',
             'resp'         => 'required|string|max:2550',
+            'stack'        => 'required|string|max:2550',
             'start_date'   =>  ['required', 'date_format:m-Y'],
             'finish_date'  =>  ['nullable', 'date_format:m-Y'],
             'active'       => ''
@@ -120,6 +121,5 @@ class WorkController extends Controller
             return redirect(route('admin_work_list'))->with('status', __('Work was deleted'));
         }
         return redirect(route('admin_work_list'))->withErrors(__('Failed to delete work'));
-
     }
 }
