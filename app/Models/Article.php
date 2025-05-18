@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -26,12 +27,23 @@ class Article extends Model
     public static function booted()
     {
         static::creating(function ($article) {
-            $article->slug = Str::slug($article->title);
+            $article->slug = self::slugUnique($article);
         });
 
         static::updating(function ($article) {
-            $article->slug = Str::slug($article->title);
+            $article->slug = self::slugUnique($article);
         });
+    }
+
+    private static function slugUnique(self $article): string
+    {
+        $slug = Str::slug($article->title);
+        $original = $slug;
+        $i = 1;
+        while (self::where('slug', $slug)->where('id', '!=', $article->id)->exists()) {
+            $slug = $original . '-' . $i++;
+        }
+        return $slug;
     }
 
     /**
@@ -56,23 +68,6 @@ class Article extends Model
         $query->where('published', 1);
     }
 
-
-//    protected function description(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn (string $value) => Str::limit(
-//                trim(
-//                    preg_replace('/\s+/', ' ', // заменяем множественные пробелы
-//                        str_replace("\u{A0}", ' ', // удаляем \u{A0}
-//                            strip_tags(
-//                                html_entity_decode($this->content)
-//                            )
-//                        )
-//                    )
-//                ), 100
-//            ),
-//        );
-//    }
 
     public function getDescriptionAttribute()
     {

@@ -14,14 +14,21 @@ return new class extends Migration
     {
         if (!Schema::hasColumn('articles', 'slug')) {
             Schema::table('articles', function (Blueprint $table) {
-                $table->string('slug')->unique()->after('title');
+                $table->string('slug')->after('title')->default('temp');
             });
 
             $articles = \App\Models\Article::all();
+
             foreach ($articles as $article) {
-                $article->slug = Str::slug($article->title);
+                $slug = Str::slug($article->title);
+                $article->slug = $slug;
                 $article->save();
             }
+
+            Schema::table('articles', function (Blueprint $table) {
+                $table->string('slug')->nullable(false)->default(null)->change();
+                $table->unique('slug');
+            });
         }
     }
 
