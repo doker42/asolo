@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
@@ -10,7 +9,6 @@ use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\IgnoredIpController as AdminIgnoredIpController;
-use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\Fail2BanController as AdminFail2BanController;
 
 Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth'] ], function () {
@@ -80,32 +78,12 @@ Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth']
             Route::delete('/delete/{ip}', 'destroy')->name('admin.ignored_ip.destroy');
         });
     });
-//    Route::group(['prefix' => 'articles'], function () {
-//        Route::controller( AdminArticleController::class)->group(function () {
-//            Route::get('/list', 'index')->name('admin.article.list');
-//            Route::get('/show/{article}', 'show')->name('admin.article.show');
-//            Route::get('/create', 'create')->name('admin.article.create');
-////            Route::get('/edit/{id}', 'edit')->name('admin.article.edit');
-//            Route::post('/store', 'store')->name('admin.article.store');
-////            Route::post('/update/{id}', 'update')->name('admin.article.update');
-////            Route::delete('/destroy/{id}', 'destroy')->name('admin.article.destroy');
-//        });
-//    });
 //    Route::group(['prefix' => 'fail2ban'], function () {
 //        Route::controller( AdminFail2BanController::class)->group(function () {
 //            Route::get('/banned-ips', 'index')->name('admin.fail2ban.index');
 //        });
 //    });
 });
-
-
-
-
-
-
-
-
-
 
 
 //Route::get('/dashboard', function () {

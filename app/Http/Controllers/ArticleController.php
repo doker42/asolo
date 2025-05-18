@@ -6,6 +6,8 @@ use App\Models\Article;
 use App\Models\ArticleImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Contracts\View\View;
 
 class ArticleController extends Controller
 {
@@ -66,8 +68,11 @@ class ArticleController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Article $article
+     * @return View
      */
-    public function show(Article $article)
+    public function show(Article $article): View
     {
         return view('articles.show', compact('article'));
     }

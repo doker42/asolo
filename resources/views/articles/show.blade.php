@@ -1,6 +1,22 @@
 @extends('articles.basic')
 
-@section('title', $article->title)
+@section('meta')
+    <title>{{ $article->title }}</title>
+    <meta name="description" content="{{ $article->description }}">
+
+{{--    <!-- Open Graph -->--}}
+{{--    <meta property="og:title" content="{{ $article->title }}">--}}
+{{--    <meta property="og:description" content="{{ $article->description }}">--}}
+{{--    <meta property="og:image" content="{{ $article->og_image }}">--}}
+{{--    <meta property="og:type" content="article">--}}
+{{--    <meta property="og:url" content="{{ url()->current() }}">--}}
+
+{{--    <!-- Twitter Card -->--}}
+{{--    <meta name="twitter:card" content="summary_large_image">--}}
+{{--    <meta name="twitter:title" content="{{ $article->title }}">--}}
+{{--    <meta name="twitter:description" content="{{ $article->description }}">--}}
+{{--    <meta name="twitter:image" content="{{ $article->og_image }}">--}}
+@endsection
 
 @section('content')
     <div class="container py-5" style="max-width: 760px; font-family: 'Segoe UI', sans-serif;">
