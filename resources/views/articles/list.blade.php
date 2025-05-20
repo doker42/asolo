@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('articles.basic')
 
 @section('title', 'Статьи')
@@ -26,7 +27,7 @@
                         @php
                             $firstImage = $article->images->first();
                             $imgSrc = $firstImage
-                                ? asset('storage/' . $firstImage->image_path)
+                                ? Storage::disk(config('filesystems.file_storage'))->url($firstImage->image_path)
                                 : asset('assets/img/default/pexel.jpg');
                             $text = $article->content;
                             $text = preg_replace('/\[image_\d+\]/', '', $text);

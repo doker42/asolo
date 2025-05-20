@@ -37,7 +37,7 @@
                 $content = $article->content;
                 foreach ($article->images as $image) {
                     $imgTag = "<div class='text-center my-4'>
-                                <img src='" . asset('storage/' . $image->image_path) . "' class='img-fluid rounded' style='max-height: 500px;'>
+                                <img src='" . Storage::disk(config('filesystems.file_storage'))->url($image->image_path) . "' class='img-fluid rounded' style='max-height: 500px;'>
                                </div>";
                     $content = str_replace("[" . $image->placeholder . "]", $imgTag, $content);
                 }
@@ -74,3 +74,5 @@
     </div>
 
 @endsection
+
+
