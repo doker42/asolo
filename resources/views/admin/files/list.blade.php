@@ -43,7 +43,7 @@
                                 <form id="setActive_{{$file->id}}" action="{{route('admin_about_update', ['file_id' => $file->id])}}"  method="POST">
                                     @csrf
                                     <a title="Set as active" onclick="document.getElementById('setActive_{{$file->id}}').submit(); return false;">
-                                        <img class="preview-photo {{$activeClass}}" src="{{Storage::url($file->name)}}" alt="" width="50px">
+                                        <img class="preview-photo {{$activeClass}}" src="{{Storage::disk(config('filesystems.default'))->url($file->name)}}" alt="" width="50px">
                                     </a>
                                 </form>
                             </td>

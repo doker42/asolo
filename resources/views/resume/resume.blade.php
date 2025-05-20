@@ -34,7 +34,7 @@
         <span class="d-none d-lg-block">
                     @if(isset($about->image?->name))
                 <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-                     src="{{ Storage::url($about->image->name) }}" alt="..."/>
+                     src="{{ Storage::disk(config('filesystems.default'))->url($about->image->name) }}" alt="..."/>
             @else
                 <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
                      src="{{ asset('assets/img/default/developer.jpeg') }}" alt="..."/>

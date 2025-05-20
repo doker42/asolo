@@ -36,7 +36,7 @@ class FileController extends Controller
         ]);
         $file = $request->file;
         $original = $file->getClientOriginalName();
-        $name = Storage::disk('public')->put($type, $file);
+        $name = Storage::disk(config('filesystems.default'))->put($type, $file);
         if ($name) {
             $file = File::create([
                 'name'     => $name,

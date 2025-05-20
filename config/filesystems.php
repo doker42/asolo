@@ -47,12 +47,12 @@ return [
             'report' => false,
         ],
 
-//        'vitchestorage' => [
-//            'driver' => 'local',
-//            'root' => '/mnt/uploads',
-//            'url' => env('APP_URL') . '/uploads',
-//            'visibility' => 'public',
-//        ],
+        'vitchestorage' => [
+            'driver' => 'local',
+            'root' => '/mnt/uploads',
+            'url' => env('APP_URL') . '/vitchestorage',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
