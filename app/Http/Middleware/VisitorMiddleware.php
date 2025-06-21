@@ -7,6 +7,7 @@ use App\Models\Visitor;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class VisitorMiddleware
@@ -50,9 +51,11 @@ class VisitorMiddleware
      */
     protected function getRequestData(Request $request): array
     {
+        $url = $request->getRequestUri();
+
         return [
             'ip'     => $request->getClientIp(),
-            'url'    => $request->getRequestUri(),
+            'url'    => Str::limit($url, config('app.max_visitors_uri'), ''),
             'path'   => $request->path(),
             'method' => $request->method(),
             'agent'  => strtolower($request->userAgent() ?? ''),

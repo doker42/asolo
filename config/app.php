@@ -124,4 +124,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+    'max_visitors_uri' => env('MAX_VISITORS_URI', 255),
+
 ];
