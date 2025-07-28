@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Doker42\Telegramlog\TelegramLogger;
 
 class DeleteOldVisitors extends Command
 {
@@ -28,6 +29,15 @@ class DeleteOldVisitors extends Command
     public function handle()
     {
         $oldDate = Carbon::now()->subMonth();
-        Visitor::where('visited_date', '<', $oldDate)->delete();
+        $deletedCount = Visitor::where('visited_date', '<', $oldDate)->delete();
+
+        /** to Telegram chat messaging */
+        $message = [
+            'text' => 'Old visitors deleting',
+            'message' => $deletedCount . ' old rows were deleted',
+
+        ];
+        $logger = new TelegramLogger($message, TelegramLogger::TYPE_INFO);
+        $logger->handle();
     }
 }
