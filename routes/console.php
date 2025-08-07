@@ -10,7 +10,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command(DeleteOldVisitors::class)->weekly();
-
-//Schedule::command('log:test-message')->everyFiveMinutes();
-Schedule::command(LogTestMessage::class)->everyFiveMinutes();
+Schedule::command(DeleteOldVisitors::class)->dailyAt('10:03');
+Schedule::command(LogTestMessage::class)->dailyAt('10:05');
