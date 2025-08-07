@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\LogTestMessage;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -10,3 +11,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command(DeleteOldVisitors::class)->weekly();
+
+//Schedule::command('log:test-message')->everyFiveMinutes();
+Schedule::command(LogTestMessage::class)->everyFiveMinutes();
