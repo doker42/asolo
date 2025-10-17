@@ -66,7 +66,7 @@
                 <span class="s-name">Chebotnikov</span>
             </h1>
             <div class="subheading mb-5">
-                BUCHAREST ROMANIA ·
+                KHERSON UKRAINE ·
                 <a href="mailto:{{$about->email}}">{{$about->email}}</a>
             </div>
             <p class="lead mb-5">{{$about->about}}</p>
