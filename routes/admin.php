@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminProjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
@@ -78,6 +79,17 @@ Route::group(['prefix' => config('admin.admin_prefix'), 'middleware' => ['auth']
             Route::delete('/delete/{ip}', 'destroy')->name('admin.ignored_ip.destroy');
         });
     });
+//    in developing status !!!
+//    Route::group(['prefix' => 'projects'], function () {
+//        Route::controller( AdminProjectController::class)->group(function () {
+//            Route::get('/list', 'index')->name('admin_project_list');
+//            Route::get('/create', 'create')->name('admin_project_create');
+//            Route::get('/edit/{id}', 'edit')->name('admin_project_edit');
+//            Route::post('/store', 'store')->name('admin_project_store');
+//            Route::post('/update/{id}', 'update')->name('admin_project_update');
+//            Route::delete('/destroy/{id}', 'destroy')->name('admin_project_destroy');
+//        });
+//    });
 //    Route::group(['prefix' => 'fail2ban'], function () {
 //        Route::controller( AdminFail2BanController::class)->group(function () {
 //            Route::get('/banned-ips', 'index')->name('admin.fail2ban.index');

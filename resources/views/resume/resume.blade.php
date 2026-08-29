@@ -171,6 +171,22 @@
 
         </div>
     </section>
+    <hr class="m-0"/>
+    <!-- PROJECTS -->
+    <section class="resume-section" id="projects">
+        <div class="resume-section-content">
+            <h2 class="mb-5">{{__('Projects')}}</h2>
+
+            <div class="image-container" id="">
+{{--                <img src="{{asset('assets/img/default/resume_pdf.png')}}" alt="Downloadable Image"--}}
+{{--                     class="download-image">--}}
+{{--                <div id="loadingIndicator" class="loading-indicator">--}}
+{{--                    <div class="spinner-border text-light"></div>--}}
+{{--                </div>--}}
+            </div>
+
+        </div>
+    </section>
 </div>
 
 <!-- Bootstrap core JS-->

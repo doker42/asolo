@@ -36,6 +36,12 @@
                         {{__('Works')}}
                     </a>
                 </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link d-flex align-items-center gap-2" href="{{route('admin_project_list')}}">--}}
+{{--                        <svg class="bi"><use xlink:href="#puzzle"/></svg>--}}
+{{--                        {{__('Projects')}}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="{{route('admin_info_edit', ['id' => 1])}}">
                         <svg class="bi"><use xlink:href="#info"/></svg>
