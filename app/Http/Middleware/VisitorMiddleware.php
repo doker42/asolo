@@ -26,7 +26,7 @@ class VisitorMiddleware
         }
 
         if (Visitor::isBanned($data['ip'])) {
-            sleep(100);
+//            sleep(100);
             abort(404);
         }
 
@@ -34,13 +34,13 @@ class VisitorMiddleware
             collect(config('visitors.bad_agents'))->first(fn($agent) => str_contains($data['agent'], $agent)) ||
             collect(config('visitors.bad_paths'))->first(fn($segment) => str_contains($data['path'], $segment))
         ) {
-            sleep(60);
+//            sleep(60);
             return response('Access Denied', 418)
                 ->header('X-Defense', 'Honeypot')
                 ->header('Retry-After', '86400'); // 1 день
         }
 
-        dispatch(new HandleRequest($data));
+        HandleRequest::dispatchAfterResponse($data);
 
         return $next($request);
     }

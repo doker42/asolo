@@ -68,20 +68,23 @@ class Visitor extends Model
         $ip     = $data['ip'];
         $method = $data['method'];
         $visited_date = Date("Y-m-d:H:i:s");
-        $location = LocationVisitors::getLocation($ip);
-        $location = $location ? $location['country'] . " : " . $location['city'] : "noname";
-        $visitor  = Visitor::updateOrCreate([
-            'ip' => $ip,
-        ],
-        [
-            'location' => $location,
-            'visited_date' => $visited_date
-        ]);
-        $visitor->increment('hits');
+        $visitor = self::firstOrNew(['ip' => $ip]);
 
-        if ($method != Url::GET_METHOD) {
+        if (!$visitor->exists || !$visitor->location) {
+            $location = LocationVisitors::getLocation($ip);
+            $visitor->location = $location
+                ? $location['country'] . " : " . $location['city']
+                : 'noname';
+        }
+
+        $visitor->visited_date = $visited_date;
+
+        if ($method !== Url::GET_METHOD) {
             $visitor->banned = true;
         }
+
+        $visitor->save();
+        $visitor->increment('hits');
 
         return $visitor;
     }

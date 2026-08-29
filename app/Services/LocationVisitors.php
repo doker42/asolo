@@ -2,38 +2,42 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class LocationVisitors
 {
-    public static function getLocation($ip): array
+    public static function getLocation(string $ip): array
     {
-        if (env('APP_ENV') === 'local'){
+        if (app()->environment('local')) {
             return [
                 'country' => 'local',
-                'city'    => 'host'
+                'city'    => 'host',
             ];
         }
 
-        sleep(2);
-
-        try {
-            $client = new Client();
-            $response = $client->get("http://ip-api.com/json/{$ip}");
-            $data = json_decode($response->getBody(), true);
-
-            if ($data['status'] === 'success') {
-                return $data; // Contains city, country, lat, lon, etc.
-            } else {
-                return [];
-            }
-
-        } catch (\Exception $e) {
-
-            Log::info('Get Location Error : ' . $e->getMessage());
-
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             return [];
         }
+
+        return Cache::remember("visitor_location_" . sha1($ip), now()->addDays(30), function () use ($ip) {
+            try {
+                $response = Http::connectTimeout(1)
+                    ->timeout(2)
+                    ->acceptJson()
+                    ->get("http://ip-api.com/json/{$ip}");
+
+                $data = $response->json();
+
+                return $response->successful() && ($data['status'] ?? null) === 'success'
+                    ? $data
+                    : [];
+            } catch (\Throwable $e) {
+                Log::info('Get Location Error: ' . $e->getMessage());
+
+                return [];
+            }
+        });
     }
 }
