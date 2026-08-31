@@ -4,7 +4,7 @@ return [
 
     'middleware' => [
         'visitors' => [
-            'enabled' => true,
+            'enabled' => env('VISITORS_MIDDLEWARE_ENABLED',true)
         ],
         'throttle_404' => [
             'enabled' => false,

@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Start Acode deploying
+      - name: Start Asolo deploying
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="🚀 Acode deploy starting (ветка *${{ github.ref_name }}*)"
+            -d text="🚀 Asolo deploy starting (ветка *${{ github.ref_name }}*)"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.8
@@ -23,9 +23,11 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/acode || exit 1
+            cd /var/www/asolo || exit 1
             git pull origin main || exit 1
             composer install --no-dev --optimize-autoloader || exit 1
+            npm install || exit 1
+            npm run build || exit 1
             php artisan migrate --force || exit 1
             php artisan config:cache
             php artisan route:cache
@@ -38,7 +40,7 @@ jobs:
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d text="✅ deploy finished successfully for *${{ github.repository }}* on branch *${{ github.ref_name }}*"
 
-      - name: DEploy failed
+      - name: Deploy failed
         if: failure()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
