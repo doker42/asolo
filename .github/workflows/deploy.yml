@@ -22,13 +22,23 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 20m
+          script_stop: true
           script: |
-            cd /var/www/asolo || exit 1
-            git pull origin main || exit 1
-            composer install --no-dev --optimize-autoloader || exit 1
-            npm install || exit 1
-            npm run build || exit 1
-            php artisan migrate --force || exit 1
+            set -e
+
+            DEPLOY_PATH="/var/www/asolo"
+
+            cd "$DEPLOY_PATH"
+            git config --global --add safe.directory "$DEPLOY_PATH"
+            git pull --ff-only origin main
+
+            composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+            npm ci
+            npm run build
+
+            php artisan optimize:clear
+            php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
@@ -45,4 +55,4 @@ jobs:
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="❌ Deploy Error *${{ github.repository }}* on branch *${{ github.ref_name }}*. Check pipeline."
+            -d text="❌ Deploy Error *${{ github.repository }}* on branch *${{ github.ref_name }}*. Check pipeline: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
