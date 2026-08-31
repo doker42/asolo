@@ -14,6 +14,8 @@ class ResumeDataCache
     /**
      * Return all data used by the public resume and PDF views.
      *
+     * test
+     *
      * The value lives until one of the underlying models changes. This avoids
      * repeating the same database queries on every public request.
      */
