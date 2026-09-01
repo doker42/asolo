@@ -48,11 +48,11 @@ class ResumeDataObserver
         }
 
         app(SEOService::class)->setMeta(
-            'acode developer',
-            'laravel php developing',
+            'Chebotnikov developer',
+            'Chebotnikov laravel php developing',
             route('resume'),
             [
-                'type' => 'developer resume',
+                'type' => 'Chebotnikov developer resume',
                 'schema' => 'Resume',
             ]
         );

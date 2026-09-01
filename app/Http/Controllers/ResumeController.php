@@ -32,8 +32,8 @@ class ResumeController extends Controller
         }
 
         $seo->setMeta(
-            'acode developer',
-            'laravel php developing',
+            'Chebotnikov developer',
+            'Chebotnikov laravel php developing',
             route('resume'),
             [
                 'type'   => 'developer resume',
