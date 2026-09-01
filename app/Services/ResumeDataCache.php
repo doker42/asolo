@@ -23,7 +23,7 @@ class ResumeDataCache
     {
         return Cache::rememberForever(self::KEY, fn (): array => [
             'about' => About::query()->with('image')->first(),
-            'info' => Info::query()->first(),
+            'info'  => Info::query()->first(),
             'works' => Work::query()->orderByDesc('start_date')->get(),
         ]);
     }

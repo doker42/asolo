@@ -4,12 +4,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     {{--        <meta name="description" content="" />--}}
-            <meta name="author" content="acode source" />
+            <meta name="author" content="asolo source" />
 
     @php  use Artesaos\SEOTools\Facades\SEOTools; @endphp
     {!! SEOTools::generate() !!}
 
-    <title>ACODE</title>
+    <title>My CV</title>
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/favicons/favicon-32x32.png')}}"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -118,12 +118,11 @@
                 <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
                 <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
                 <li class="list-inline-item"><i class="fa-solid fa-database"></i></li>
-                {{--                        <li class="list-inline-item"><i class="fab fa-react"></i></li>--}}
-                {{--                        <li class="list-inline-item"><i class="fab fa-node-js"></i></li>--}}
-                {{--                        <li class="list-inline-item"><i class="fab fa-sass"></i></li>--}}
-                {{--                        <li class="list-inline-item"><i class="fab fa-less"></i></li>--}}
-                {{--                        <li class="list-inline-item"><i class="fab fa-npm"></i></li>--}}
-
+                <li class="list-inline-item"><i class="fab fa-react"></i></li>
+                <li class="list-inline-item"><i class="fab fa-node-js"></i></li>
+                <li class="list-inline-item"><i class="fab fa-sass"></i></li>
+                <li class="list-inline-item"><i class="fab fa-less"></i></li>
+                <li class="list-inline-item"><i class="fab fa-npm"></i></li>
             </ul>
             <div class="subheading mb-3">Workflow</div>
             <ul class="fa-ul mb-0">
@@ -146,11 +145,11 @@
             <ul class="fa-ul mb-3 contacts">
                 <li class="mb-3">
                     <span class="fa-lg cont"><i class="fab fa-telegram contact"></i></span>
-                    <a class="js-tg contact" href="https://t.me/vit_che">vit_che</a>
+                    <a class="js-tg contact" href="https://t.me/{{ $about->telegram }}">{{ $about->telegram }}</a>
                 </li>
                 <li class="mb-3">
                     <span class="fa-lg cont"><i class="fa fa-envelope contact" aria-hidden="true"></i></span>
-                    <a class="js-email contact" href="mailto:vit.chebotnikov@gmail.com">vit.chebotnikov@gmail.com</a>
+                    <a class="js-email contact" href="mailto:{{ $about->email }}">{{ $about->email }}</a>
                 </li>
             </ul>
         </div>

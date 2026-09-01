@@ -3,24 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Services\ResumeDataCache;
+use App\Services\ResumeStaticGenerator;
 use App\Services\SEOService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 
 class ResumeController extends Controller
 {
     /**
      * @param SEOService $seo
-     * @return View
+     * @param ResumeDataCache $resumeDataCache
+     * @param ResumeStaticGenerator $staticGenerator
+     * @return Response
      */
-    public function resume(SEOService $seo, ResumeDataCache $resumeDataCache): View
-    {
+    public function resume(
+        SEOService $seo,
+        ResumeDataCache $resumeDataCache,
+        ResumeStaticGenerator $staticGenerator
+    ): Response {
         $data = $resumeDataCache->get();
+
         $about = $data['about'];
         $works = $data['works'];
 
         if (!$about || !$works || !$about->image?->name) {
-            return view('resume.nodata');
+            return response()->view('resume.nodata');
         }
 
         $seo->setMeta(
@@ -28,21 +36,35 @@ class ResumeController extends Controller
             'laravel php developing',
             route('resume'),
             [
-                'type'         => 'developer resume',
-//                'twitter_site' => '@YourHandle',
-                'schema'       => 'Resume'
+                'type'   => 'developer resume',
+                'schema' => 'Resume',
             ]
         );
 
-        return view('resume.resume', [
+        $view = view('resume.resume', [
             'about' => $about,
             'works' => $works,
         ]);
+
+        // Один раз рендерим Blade.
+        $html = $view->render();
+
+        // Пытаемся создать статическую копию.
+        // Если генерация по какой-либо причине упадёт,
+        // динамическая страница всё равно должна открыться.
+        try {
+            $staticGenerator->generate($html);
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        return response($html);
     }
 
     /**
      *  preview resume
      *
+     * @param ResumeDataCache $resumeDataCache
      * @return View
      */
     public function show(ResumeDataCache $resumeDataCache): View
