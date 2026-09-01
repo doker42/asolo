@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\About;
 use App\Models\Info;
 use App\Models\Work;
-use App\Services\ResumeDataCache;
+use App\Observers\ResumeDataObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,20 +18,10 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-//        $forgetResumeData = app(ResumeDataCache::class)->forget(...);
-        $forgetResumeData = [app(ResumeDataCache::class), 'forget'];
-
         foreach ([About::class, Info::class, Work::class] as $model) {
-            $model::saved($forgetResumeData);
-            $model::deleted($forgetResumeData);
+            $model::observe(ResumeDataObserver::class);
         }
-
-        // Only models using SoftDeletes expose the restored event.
-        Work::restored($forgetResumeData);
     }
 }

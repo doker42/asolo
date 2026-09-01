@@ -8,10 +8,10 @@ class BaseInfo extends Model
 {
     public static function single()
     {
-        $single = self::all()->first();
+        $single = static::query()->first();
 
         if (!$single) {
-            $single = new self();
+            $single = new static();
         }
 
         return $single;

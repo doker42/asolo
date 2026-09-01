@@ -83,6 +83,7 @@ class WorkController extends Controller
     public function update(Request $request, string $id)
     {
         $request->merge(['id' => $id]);
+
         $input = $request->validate([
             'id'           => 'exists:works,id',
             'position'     => 'required|string|max:255',
